@@ -1,5 +1,5 @@
-use std::io;
+use std::io::Error;
 
-fn main() -> io::Result<()> {
+fn main() -> Result<(), Error> {
   Ok(())
 }
