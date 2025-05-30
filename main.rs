@@ -1,4 +1,5 @@
-use std::io::{Error, stdout, Write};
+use std::error::Error;
+use std::io::{stdout, Write};
 use drbg::ctr::{CtrBuilder, CtrDrbg};
 use drbg::entropy::Entropy;
 
@@ -28,7 +29,7 @@ fn build_generator() -> CtrDrbg<EntropySuckhard> {
   return builder_generator.build().unwrap();
 }
 
-fn main() -> Result<(), Error> {
+fn main() -> Result<(), Box<dyn Error>> {
   let mut generator = build_generator();
   let mut value_generated: [u8; 48] = [0u8; 48];
 
