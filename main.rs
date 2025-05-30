@@ -1,5 +1,5 @@
 use std::io::{Error, stdout, Write};
-use drbg::ctr::CtrBuilder;
+use drbg::ctr::{CtrBuilder, CtrDrbg};
 use drbg::entropy::Entropy;
 
 struct EntropySuckhard {
@@ -17,7 +17,7 @@ impl Entropy for EntropySuckhard {
   }
 }
 
-fn main() -> Result<(), Error> {
+fn build_generator() -> CtrDrbg<EntropySuckhard> {
   let value_entropy = EntropySuckhard {state: [0u8; 48]};
   const NONCE: [u8; 48] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248];
   const PERSONAL: [u8; 48] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248];
@@ -25,7 +25,11 @@ fn main() -> Result<(), Error> {
     nonce(&NONCE).
     personal(&PERSONAL);
 
-  let mut generator = builder_generator.build().unwrap();
+  return builder_generator.build().unwrap();
+}
+
+fn main() -> Result<(), Error> {
+  let mut generator = build_generator();
   let mut value_generated: [u8; 48] = [0u8; 48];
 
   // 48 bytes * 10**8 ≈ 4.5 Gibibytes
