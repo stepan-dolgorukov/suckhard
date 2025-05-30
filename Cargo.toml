@@ -8,3 +8,4 @@ name = "suckhard"
 path = "main.rs"
 
 [dependencies]
+drbg = "1.0.1"
