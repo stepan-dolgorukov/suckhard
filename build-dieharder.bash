@@ -9,3 +9,5 @@ cd 'dieharder-3.31.1' && \
 ./configure --prefix="$(pwd)" && \
 make install LDFLAGS="-Wl,--allow-multiple-definition -no-undefined"
 cp ./bin/dieharder ../
+rm -f 'dieharder-3.31.1.tgz'
+rm -rf 'dieharder-3.31.1'
