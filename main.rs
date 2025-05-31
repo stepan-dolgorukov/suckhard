@@ -55,8 +55,8 @@ fn main() -> Result<(), Box<dyn Error>> {
   let mut generator = build_generator();
   let mut value_generated: [u8; 48] = [0u8; 48];
 
-  // 48 bytes * 2**28 = 12 Gibibytes
-  for _ in 1..(u32::MAX >> 4) {
+  // 48 bytes * 22369622 ≈ 1 Gibibyte
+  for _ in 1..22369622 {
     generator.fill_bytes(&mut value_generated, None)?;
     stdout().write(&value_generated)?;
   }
