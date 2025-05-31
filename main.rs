@@ -1,14 +1,14 @@
-use std::error::Error;
-use std::io::{stdout, Write};
 use drbg::ctr::{CtrBuilder, CtrDrbg};
 use drbg::entropy::Entropy;
+use std::error::Error;
+use std::io::{Write, stdout};
 
 struct EntropySuckhard {
   /* length_entropy_min = length_block + length_key
   length_block = 128 bits = 16 bytes
   length_key = 256 bits = 32 bytes
   => length_entropy_min = 32 + 16 = 48 bytes */
-  state: [u8; 48]
+  value: [u8; 48],
 }
 
 impl Entropy for EntropySuckhard {
