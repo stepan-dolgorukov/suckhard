@@ -12,8 +12,15 @@ struct EntropySuckhard {
 }
 
 impl Entropy for EntropySuckhard {
-  fn fill_bytes(&mut self, _bytes: &mut [u8]) -> Result<(), drbg::entropy::Error> {
-    self.state = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248];
+  fn fill_bytes(&mut self, value: &mut [u8]) -> Result<(), drbg::entropy::Error> {
+      if value.len() > self.value.len() {
+        return Result::Err(drbg::entropy::Error::new("value.len() > self.value.len()"));
+      }
+
+      for position in 1..value.len() {
+        self.value[position] = value[position];
+      }
+
     Ok(())
   }
 }
