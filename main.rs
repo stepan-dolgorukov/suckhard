@@ -26,14 +26,29 @@ impl Entropy for EntropySuckhard {
 }
 
 fn build_generator() -> CtrDrbg<EntropySuckhard> {
-  let value_entropy = EntropySuckhard {state: [0u8; 48]};
-  const NONCE: [u8; 48] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248];
-  const PERSONAL: [u8; 48] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248];
-  let builder_generator = CtrBuilder::new(value_entropy).
-    nonce(&NONCE).
-    personal(&PERSONAL);
+    const NONCE: [u8; 48] = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248,
+    ];
 
-  return builder_generator.build().unwrap();
+    const PERSONAL: [u8; 48] = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248,
+    ];
+
+    let builder_generator = CtrBuilder::new(EntropySuckhard {
+      value: [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 63, 107, 248,
+      ],
+    })
+    .nonce(&NONCE)
+    .personal(&PERSONAL);
+
+    return builder_generator.build().unwrap();
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
